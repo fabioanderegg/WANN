@@ -1,18 +1,20 @@
 import os
 import sys
-import time
 import math
 import argparse
 import subprocess
 import numpy as np
-np.set_printoptions(precision=2, linewidth=160) 
+np.set_printoptions(precision=2, linewidth=160)
+
+from wann_src.task import Task
+from wann_src.wann import Wann, loadHyp, updateHyp
+from wann_src.dataGatherer import DataGatherer
 
 # MPI
 from mpi4py import MPI
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 
-from wann_src import * # WANN evolution
 from domain import *   # Task environments
 
 
