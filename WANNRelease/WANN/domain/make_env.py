@@ -41,6 +41,10 @@ def make_env(env_name, seed=-1, render_mode=False):
       from domain.classify_gym import mnist_256
       trainSet, target  = mnist_256()
 
+    if env_name.endswith("mnist784"):
+      from domain.classify_gym import mnist_784
+      trainSet, target  = mnist_784()
+
     env = ClassifyEnv(trainSet,target)  
 
 

@@ -79,6 +79,14 @@ label = [item for sublist in L for item in sublist]
 mnist256 = mnist256._replace(in_out_labels=label)
 games['mnist256'] = mnist256
 
+# > MNIST [28x28] data set
+mnist784 = classify._replace(
+    env_name='Classify_mnist784', input_size=784, i_act=np.full(784, 1))
+L = [list(range(1, mnist784.input_size)),
+     list(range(0, mnist784.output_size))]
+label = [item for sublist in L for item in sublist]
+mnist784 = mnist784._replace(in_out_labels=label)
+games['mnist784'] = mnist784
 
 # -- Cart-pole Swingup --------------------------------------------------- -- #
 
