@@ -4,6 +4,8 @@ import math
 import argparse
 import subprocess
 import numpy as np
+import pickle
+import shutil
 np.set_printoptions(precision=2, linewidth=160)
 
 from wann_src.task import Task
@@ -19,56 +21,70 @@ from domain import *   # Task environments
 
 
 # -- Run NE -------------------------------------------------------------- -- #
-def master(): 
-  """Main WANN optimization script
-  """
-  global fileName, hyp
-  data = DataGatherer(fileName, hyp)
-  wann = Wann(hyp)
+def master():
+    """Main WANN optimization script
+    """
+    global fileName, hyp
+    data = DataGatherer(fileName, hyp)
 
-  for gen in range(hyp['maxGen']):        
-    pop = wann.ask()            # Get newly evolved individuals from WANN  
-    reward = batchMpiEval(pop)  # Send pop to evaluate
-    wann.tell(reward)           # Send fitness to WANN    
+    saved_wann = f'log/{fileName}_wann.obj'
+    if os.path.exists(saved_wann):
+        print('loading wann')
+        with open(saved_wann, 'rb') as f:
+            wann, gen = pickle.load(f)
+        shutil.copyfile(saved_wann, saved_wann + '.bak')
+    else:
+        wann = Wann(hyp)
+        gen = 0
 
-    data = gatherData(data,wann,gen,hyp)
-    print(gen, '\t - \t', data.display())
+    for i in range(10):
+        gen += 1
+        pop = wann.ask()  # Get newly evolved individuals from WANN
+        reward = batchMpiEval(pop)  # Send pop to evaluate
+        wann.tell(reward)  # Send fitness to WANN
 
-  # Clean up and data gathering at end of run
-  data = gatherData(data,wann,gen,hyp,savePop=True)
-  data.save()
-  data.savePop(wann.pop,fileName)
-  stopAllWorkers()
+        data = gatherData(data, wann, gen, hyp, savePop=False)
+        print(gen, '\t - \t', data.display())
 
-def gatherData(data,wann,gen,hyp,savePop=False):
-  """Collects run data, saves it to disk, and exports pickled population
+    with open(saved_wann, 'wb') as f:
+        pickle.dump((wann, gen), f)
 
-  Args:
-    data       - (DataGatherer)  - collected run data
-    wann       - (Wann)          - neat algorithm container
-      .pop     - (Ind)           - list of individuals in population    
-      .species - (Species)       - current species
-    gen        - (int)           - current generation
-    hyp        - (dict)          - algorithm hyperparameters
-    savePop    - (bool)          - save current population to disk?
+    # Clean up and data gathering at end of run
+    #data = gatherData(data, wann, gen, hyp)
+    #data.save()
+    # data.savePop(wann.pop,fileName)
+    stopAllWorkers()
 
-  Return:
-    data - (DataGatherer) - updated run data
-  """
-  data.gatherData(wann.pop, wann.species)
-  if (gen%hyp['save_mod']) is 0:
-    #data = checkBest(data, bestReps=16)
-    data = checkBest(data)
-    data.save(gen)
 
-  if savePop is True: # Get a sample pop to play with in notebooks    
-    global fileName
-    pref = 'log/' + fileName
-    import pickle
-    with open(pref+'_pop.obj', 'wb') as fp:
-      pickle.dump(wann.pop,fp)
+def gatherData(data, wann, gen, hyp, savePop=False):
+    """Collects run data, saves it to disk, and exports pickled population
 
-  return data
+    Args:
+      data       - (DataGatherer)  - collected run data
+      wann       - (Wann)          - neat algorithm container
+        .pop     - (Ind)           - list of individuals in population
+        .species - (Species)       - current species
+      gen        - (int)           - current generation
+      hyp        - (dict)          - algorithm hyperparameters
+      savePop    - (bool)          - save current population to disk?
+
+    Return:
+      data - (DataGatherer) - updated run data
+    """
+    data.gatherData(wann.pop, wann.species)
+    #if (gen % hyp['save_mod']) is 0:
+    #    # data = checkBest(data, bestReps=16)
+    #    data = checkBest(data)
+    #    data.save(gen)
+
+    if savePop is True:  # Get a sample pop to play with in notebooks
+        global fileName
+        pref = 'log/' + fileName
+        import pickle
+        with open(pref + '_pop.obj', 'wb') as fp:
+            pickle.dump(wann.pop, fp)
+
+    return data
 
 def checkBest(data):
   """Checks better performing individual if it performs over many trials.
