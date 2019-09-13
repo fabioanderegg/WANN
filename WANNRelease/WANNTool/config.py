@@ -71,7 +71,7 @@ games['mnist256train'] = mnist256train
 
 
 # evaluate on the test set
-mnist784test = Game(env_name='ht-v0',
+mnist784test = Game(env_name='MNISTTEST784-v0',
   input_size=784,
   output_size=10,
   wann_file='mnist784_best.out',
