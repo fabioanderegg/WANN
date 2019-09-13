@@ -68,3 +68,24 @@ mnist256train = Game(env_name='MNISTTRAIN256-v0',
   weight_bias=0.0,
 )
 games['mnist256train'] = mnist256train
+
+
+# evaluate on the test set
+mnist784test = Game(env_name='ht-v0',
+  input_size=784,
+  output_size=10,
+  wann_file='mnist784_best.out',
+  action_select='softmax', # all, soft, hard
+  weight_bias=0.0,
+)
+games['mnist784test'] = mnist784test
+
+# evaluate on the training set
+mnist784train = Game(env_name='MNISTTRAIN784-v0',
+  input_size=784,
+  output_size=10,
+  wann_file='mnist784_best.out',
+  action_select='softmax', # all, soft, hard
+  weight_bias=0.0,
+)
+games['mnist784train'] = mnist784train
