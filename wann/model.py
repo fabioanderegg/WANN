@@ -6,7 +6,7 @@ import random
 import json
 import sys
 
-from classify_gym import mnist_256_test, ClassifyEnv
+from classify_gym import mnist_784_test, ClassifyEnv
 import ann
 
 import argparse
@@ -44,7 +44,7 @@ class Model:
     def make_env(self):
         self.render_mode = render_mode
 
-        test_images, test_labels = mnist_256_test()
+        test_images, test_labels = mnist_784_test()
         self.env = ClassifyEnv(test_images, test_labels, batch_size=10000, accuracy_mode=True)
 
     def get_action(self, x):

@@ -142,6 +142,28 @@ def mnist_256_test():
     return z, mnist.test_labels()
 
 
+def mnist_784():
+  '''
+  Converts 28x28 mnist digits to [16x16]
+  [samples x pixels]  ([N X 256])
+  '''
+  import mnist
+  z = (mnist.train_images()/255)
+  z = z.reshape(-1, (784))
+  return z, mnist.train_labels()
+
+
+def mnist_784_test():
+  '''
+  Converts 28x28 mnist digits to [16x16]
+  [samples x pixels]  ([N X 256])
+  '''
+  import mnist
+  z = (mnist.test_images()/255)
+  z = z.reshape(-1, (784))
+  return z, mnist.test_labels()
+
+
 def mnist_patch9():
     '''
     Crops 28x28 mnist digits to a [9x9] patch

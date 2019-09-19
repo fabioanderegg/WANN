@@ -125,7 +125,7 @@ class HausdorffDistanceMasks:
         # batch = batch.to(device)
         # output = model(batch)
         # output = output.detach().cpu().numpy()[0]
-        output = model.predict(image.reshape(1, 16, 16, 1))
+        output = model.get_action(image.reshape(1, self.width * self.height))
         return output[0][output_class] - baseline
 
     def explain(self, model, image, output, output_class, channel=-1):
