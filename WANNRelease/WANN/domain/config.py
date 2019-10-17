@@ -88,6 +88,14 @@ label = [item for sublist in L for item in sublist]
 mnist784 = mnist784._replace(in_out_labels=label)
 games['mnist784'] = mnist784
 
+mnist_features = classify._replace(
+    env_name='Classify_mnist_features', input_size=20, i_act=np.full(20, 1))
+L = [list(range(1, mnist_features.input_size)),
+     list(range(0, mnist_features.output_size))]
+label = [item for sublist in L for item in sublist]
+mnist_features = mnist_features._replace(in_out_labels=label)
+games['mnist_features'] = mnist_features
+
 # -- Cart-pole Swingup --------------------------------------------------- -- #
 
 # > Slower reaction speed

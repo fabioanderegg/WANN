@@ -188,6 +188,22 @@ def mnist_784_test():
   return z, mnist.test_labels()
 
 
+def mnist_features():
+  import mnist
+  x_train1 = np.load('../mnist_train_features.npy')
+  x_train2 = np.load('../mnist_train_radiomics.npy')
+  x_train = np.concatenate((x_train1, x_train2), axis=1)
+  return x_train, mnist.train_labels()
+
+
+def mnist_features_test():
+  import mnist
+  x_test1 = np.load('../mnist_test_features.npy')
+  x_test2 = np.load('../mnist_test_radiomics.npy')
+  x_test = np.concatenate((x_test1, x_test2), axis=1)
+  return x_test, mnist.test_labels()
+
+
 def preprocess(img,size, patchCorner=(0,0), patchDim=None, unskew=True):
   """
   Resizes, crops, and unskewes images

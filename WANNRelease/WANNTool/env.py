@@ -21,7 +21,7 @@ def make_env(env_name, seed=-1, render_mode=False):
     env = CartPoleSwingUpEnv()
   elif (env_name.startswith("MNIST")):
     print("MNIST256_started")
-    from custom_envs.classify_gym import ClassifyEnv, mnist_256, mnist_256_test, mnist_784_test, mnist_784
+    from custom_envs.classify_gym import ClassifyEnv, mnist_256, mnist_256_test, mnist_784_test, mnist_784, mnist_features_test, mnist_features
     if env_name.startswith("MNISTTEST256"):
       test_images, test_labels  = mnist_256_test()
       env = ClassifyEnv(test_images, test_labels, batch_size=10000, accuracy_mode=True)
@@ -34,6 +34,13 @@ def make_env(env_name, seed=-1, render_mode=False):
     elif env_name.startswith("MNISTTRAIN784"):
       train_images, train_labels  = mnist_784()
       env = ClassifyEnv(train_images, train_labels, batch_size=60000, accuracy_mode=True)
+    elif env_name.startswith("MNISTTESTFEATURES"):
+      test_images, test_labels  = mnist_features_test()
+      env = ClassifyEnv(test_images, test_labels, batch_size=10000, accuracy_mode=True)
+    elif env_name.startswith("MNISTTRAINFEATURES"):
+      train_images, train_labels  = mnist_features()
+      env = ClassifyEnv(train_images, train_labels, batch_size=60000, accuracy_mode=True)
+
     else:
       trainSet, target  = mnist_256()
       env = ClassifyEnv(trainSet, target)
