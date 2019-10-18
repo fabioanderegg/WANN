@@ -6,7 +6,6 @@ from gym import spaces
 from gym.utils import seeding
 import numpy as np
 import sys
-import cv2
 import math
 
 class ClassifyEnv(gym.Env):
@@ -209,6 +208,7 @@ def preprocess(img,size, patchCorner=(0,0), patchDim=None, unskew=True):
   Resizes, crops, and unskewes images
 
   """
+  import cv2
   if patchDim == None: patchDim = size
   nImg = np.shape(img)[0]
   procImg  = np.empty((nImg,size[0],size[1]))
@@ -238,7 +238,7 @@ def deskew(image, image_shape, negated=True):
 
   source: https://github.com/vsvinayak/mnist-helper
   """
-  
+  import cv2
   # negate the image
   if not negated:
       image = 255-image
