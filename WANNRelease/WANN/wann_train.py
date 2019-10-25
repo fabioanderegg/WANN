@@ -37,7 +37,7 @@ def master():
         wann = Wann(hyp)
         gen = 0
 
-    for i in range(100):
+    for i in range(20):
         gen += 1
         pop = wann.ask()  # Get newly evolved individuals from WANN
         reward = batchMpiEval(pop)  # Send pop to evaluate
