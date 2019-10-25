@@ -110,8 +110,7 @@ def mnist_256():
 
 def mnist_784():
   '''
-  Converts 28x28 mnist digits to [16x16]
-  [samples x pixels]  ([N X 256])
+  Use the full size 28x28 mnist digits, flatted to 784
   '''
   import mnist
   z = (mnist.train_images()/255)
@@ -121,13 +120,21 @@ def mnist_784():
 
 def mnist_features():
   '''
-  Converts 28x28 mnist digits to [16x16]
-  [samples x pixels]  ([N X 256])
+  Use features extracted by OpenCV and pyradiomics
   '''
   import mnist
   x_train1 = np.load('../mnist_train_features.npy')
   x_train2 = np.load('../mnist_train_radiomics.npy')
   x_train = np.concatenate((x_train1, x_train2), axis=1)
+  return x_train, mnist.train_labels()
+
+
+def mnist_autoencoder():
+  '''
+  Use features extracted by the encoder of an autoencoder
+  '''
+  import mnist
+  x_train = np.load('../mnist_train_autoencoder.npy')
   return x_train, mnist.train_labels()
 
 

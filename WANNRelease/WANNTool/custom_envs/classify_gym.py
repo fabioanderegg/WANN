@@ -203,6 +203,24 @@ def mnist_features_test():
   return x_test, mnist.test_labels()
 
 
+def mnist_autoencoder():
+  '''
+  Use features extracted by the encoder of an autoencoder
+  '''
+  import mnist
+  x_train = np.load('../mnist_train_autoencoder.npy')
+  return x_train, mnist.train_labels()
+
+
+def mnist_autoencoder_test():
+  '''
+  Use features extracted by the encoder of an autoencoder
+  '''
+  import mnist
+  x_train = np.load('../mnist_test_autoencoder.npy')
+  return x_train, mnist.train_labels()
+
+
 def preprocess(img,size, patchCorner=(0,0), patchDim=None, unskew=True):
   """
   Resizes, crops, and unskewes images

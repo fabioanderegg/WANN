@@ -96,6 +96,14 @@ label = [item for sublist in L for item in sublist]
 mnist_features = mnist_features._replace(in_out_labels=label)
 games['mnist_features'] = mnist_features
 
+mnist_autoencoder = classify._replace(
+    env_name='Classify_mnist_autoencoder', input_size=32, i_act=np.full(20, 1))
+L = [list(range(1, mnist_autoencoder.input_size)),
+     list(range(0, mnist_autoencoder.output_size))]
+label = [item for sublist in L for item in sublist]
+mnist_autoencoder = mnist_autoencoder._replace(in_out_labels=label)
+games['mnist_autoencoder'] = mnist_autoencoder
+
 # -- Cart-pole Swingup --------------------------------------------------- -- #
 
 # > Slower reaction speed

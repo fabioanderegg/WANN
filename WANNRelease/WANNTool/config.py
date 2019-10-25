@@ -109,3 +109,23 @@ mnistfeaturestrain = Game(env_name='MNISTTRAINFEATURES-v0',
   weight_bias=0.0,
 )
 games['mnistfeaturestrain'] = mnistfeaturestrain
+
+# evaluate on the test set
+mnistautoencodertest = Game(env_name='MNISTTESTAUTOENCODER-v0',
+  input_size=32,
+  output_size=10,
+  wann_file='mnist_autoencoder_best.out',
+  action_select='softmax', # all, soft, hard
+  weight_bias=0.0,
+)
+games['mnistautoencodertest'] = mnistautoencodertest
+
+# evaluate on the training set
+mnistautoencodertrain = Game(env_name='MNISTTRAINAUTOENCODER-v0',
+  input_size=32,
+  output_size=10,
+  wann_file='mnist_autoencoder_best.out',
+  action_select='softmax', # all, soft, hard
+  weight_bias=0.0,
+)
+games['mnistautoencodertrain'] = mnistautoencodertrain
