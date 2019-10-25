@@ -9,6 +9,7 @@ but can easily be changed to work on a workstation with a GPU.
 
 ## Instructions
 General approach for all experiments:
+* Install dependencies: `pip install numpy mpi4py gym mnist cma opencv-python pyradiomics jupyter`
 * Run notebooks to extract features from MNIST contained in the subdirectory (expect for the basic MNIST 28x28 experiment in the wann/ directory)
 * Copy the extracted features into the WANNRelease directory (probably do this on a server where scripts can run for a long time)
 * Build the neural network architecture with WANN (using the train_mnist*.sh scripts in the WANNRelease/WANN directory), this takes hours to days(!) to get a usable result
